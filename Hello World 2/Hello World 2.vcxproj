@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|TDM-Mingw32">
+      <Configuration>Debug</Configuration>
+      <Platform>TDM-Mingw32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|TDM-Mingw32">
+      <Configuration>Release</Configuration>
+      <Platform>TDM-Mingw32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -30,6 +38,12 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
+    <PlatformToolset>GCC_v5.2</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|TDM-Mingw32'">
+    <PlatformToolset>GCC_v5.2</PlatformToolset>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -53,6 +67,10 @@
     <IncludePath>D:\MSVC2015\VC\include;$(WindowsSdk_71A_IncludePath);D:\My Projects\WTL;$(IncludePath)</IncludePath>
     <LibraryPath>$(WindowsSdk_71A_LibraryPath_x86);D:\My Projects\WTL\Release;$(LibraryPath)</LibraryPath>
     <LibraryWPath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
+    <MinGWInstallFolder>D:\TDM-GCC-64</MinGWInstallFolder>
+    <LLVMInstallFolder>d:\LLVM</LLVMInstallFolder>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,6 +105,29 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>shlwapi.lib;D:\My Projects\WTL\Release\WTL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
+    <Link>
+      <ThreadSupport>false</ThreadSupport>
+      <AdditionalDependencies>D:\MYPROJ~1\WTL\TDM-Mingw32\Debug\libWTL.a</AdditionalDependencies>
+      <UnicodeBuild>true</UnicodeBuild>
+      <LibraryDependencies>
+      </LibraryDependencies>
+    </Link>
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\My Projects\WTL</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <DebugInformation>Full</DebugInformation>
+      <DebugInformationFormat>DWARF2</DebugInformationFormat>
+      <PositionIndependentCode>true</PositionIndependentCode>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>D:\MYPROJ~1\WTL</AdditionalIncludeDirectories>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <ShowProgress>false</ShowProgress>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="HelloWorld2.rc" />

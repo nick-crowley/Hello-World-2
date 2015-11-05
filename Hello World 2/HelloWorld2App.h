@@ -37,6 +37,9 @@ namespace hw2
     //! \alias base - Define base type
     using base = wtl::Application<MainWindow<ENC>>;
     
+    //! \alias char_t - Inherit character type
+    using char_t = typename base::char_t;
+
     //! \var encoding - Define app character encoding
     static constexpr wtl::Encoding  encoding = ENC;
   

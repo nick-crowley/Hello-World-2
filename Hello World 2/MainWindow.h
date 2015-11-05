@@ -227,7 +227,7 @@ namespace hw2
       GoodbyeBtn.destroy();
 
       // Close program
-      this->post<wtl::WindowMessage::QUIT>();
+      this->template post<wtl::WindowMessage::QUIT>();
 
       // Handled
       return 0; 
