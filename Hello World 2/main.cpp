@@ -23,7 +23,7 @@ int32_t WINAPI _tWinMain(::HINSTANCE instance, ::HINSTANCE prevInstance, PWSTR c
     hw2::application_t program(instance);
   
     // Run program and return result
-    return program.run(cmdLine, static_cast<wtl::ShowWindowFlags>(showMode));
+    return program.run(cmdLine, wtl::enum_cast<wtl::ShowWindowFlags>(showMode));
   }
   catch (std::exception& e)
   {

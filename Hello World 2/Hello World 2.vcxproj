@@ -109,7 +109,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
     <Link>
       <ThreadSupport>false</ThreadSupport>
-      <AdditionalDependencies>D:\MYPROJ~1\WTL\TDM-Mingw32\Debug\libWTL.a</AdditionalDependencies>
+      <AdditionalDependencies>D:\MYPROJ~1\WTL\TDM-Mingw32\Debug\libWTL.a;D:\TDM-GCC-64\x86_64-w64-mingw32\lib32\libUxtheme.a;D:\TDM-GCC-64\x86_64-w64-mingw32\lib32\libShlwapi.a</AdditionalDependencies>
       <UnicodeBuild>true</UnicodeBuild>
       <LibraryDependencies>
       </LibraryDependencies>
