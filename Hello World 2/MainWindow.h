@@ -8,18 +8,18 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include "wtl/WTL.hpp"                                          //!< Windows Template Library
-#include "wtl/utils/Random.hpp"                                 //!< wtl::Random
-#include "wtl/windows/WindowBase.hpp"                           //!< wtl::WindowBase
-#include "wtl/controls/Button.hpp"                              //!< wtl::Button
-#include "wtl/windows/commands/NewDocumentCommand.hpp"          //!< wtl::NewDocumentCommand
-#include "wtl/windows/commands/OpenDocumentCommand.hpp"         //!< wtl::OpenDocumentCommand
-#include "wtl/windows/commands/SaveDocumentCommand.hpp"         //!< wtl::SaveDocumentCommand
-#include "wtl/windows/commands/CutClipboardCommand.hpp"         //!< wtl::CutClipboardCommand
-#include "wtl/windows/commands/CopyClipboardCommand.hpp"        //!< wtl::CopyClipboardCommand
-#include "wtl/windows/commands/PasteClipboardCommand.hpp"       //!< wtl::PasteClipboardCommand
-#include "wtl/windows/commands/AboutProgramCommand.hpp"         //!< wtl::AboutProgramCommand
-#include "wtl/windows/commands/ExitProgramCommand.hpp"          //!< wtl::ExitProgramCommand
+#include <wtl/WTL.hpp>                                          //!< Windows Template Library
+#include <wtl/utils/Random.hpp>                                 //!< wtl::Random
+#include <wtl/windows/WindowBase.hpp>                           //!< wtl::WindowBase
+#include <wtl/controls/Button.hpp>                              //!< wtl::Button
+#include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
+#include <wtl/windows/commands/OpenDocumentCommand.hpp>         //!< wtl::OpenDocumentCommand
+#include <wtl/windows/commands/SaveDocumentCommand.hpp>         //!< wtl::SaveDocumentCommand
+#include <wtl/windows/commands/CutClipboardCommand.hpp>         //!< wtl::CutClipboardCommand
+#include <wtl/windows/commands/CopyClipboardCommand.hpp>        //!< wtl::CopyClipboardCommand
+#include <wtl/windows/commands/PasteClipboardCommand.hpp>       //!< wtl::PasteClipboardCommand
+#include <wtl/windows/commands/AboutProgramCommand.hpp>         //!< wtl::AboutProgramCommand
+#include <wtl/windows/commands/ExitProgramCommand.hpp>          //!< wtl::ExitProgramCommand
 
 
 //! \namespace hw2 - Hello World v2 (Controls demonstration)

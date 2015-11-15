@@ -13,8 +13,8 @@
 #define _WIN32_WINNT    _WIN32_WINNT_WINXP
 //#include <SDKDDKVer.h>
 
-#include "wtl/WTL.hpp"                      //!< Windows Template Library
-#include "wtl/modules/Application.hpp"      //!< wtl::Application
+#include <wtl/WTL.hpp>                      //!< Windows Template Library
+#include <wtl/modules/Application.hpp>      //!< wtl::Application
 #include "MainWindow.h"                     //!< hw1::Mainwindow
 
 //! \namespace hw2 - Hello World v2 (Controls demonstration)
