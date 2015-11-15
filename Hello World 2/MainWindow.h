@@ -61,6 +61,7 @@ namespace hw2
     ExitButton(::HINSTANCE instance, wtl::WindowId id) : base(instance)
     {
       // Properties
+      this->Font      = wtl::HFont(wtl::c_str("MS Shell Dlg 2"), 11, wtl::FontWeight::Bold);
       this->Ident     = id;
       this->Position  = wtl::PointL(500,50);
       this->Style    |= wtl::WindowStyle::Visible;
@@ -233,7 +234,7 @@ namespace hw2
       GoodbyeBtn.destroy();
 
       // Close program
-      this->template post<wtl::WindowMessage::QUIT>();
+      this->template post<wtl::WindowMessage::Quit>();
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
