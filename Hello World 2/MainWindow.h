@@ -150,7 +150,9 @@ namespace hw2
       this->Text    = wtl::c_str(L"Hello World");
       
       // Events
+      this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
       this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
+      this->Paint   += new wtl::PaintWindowEventHandler<encoding>(this, &MainWindow::onPaint);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       // Commands: File
@@ -200,9 +202,9 @@ namespace hw2
     //! Called during window creation to modify properties on the fly
     //! 
     //! \param[in] &args - Message arguments containing window creation properties 
-    //! \return wtl::LResult - Message result and routing
+    //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) override
+    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) 
     { 
       // Populate window menu
       this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
@@ -215,15 +217,15 @@ namespace hw2
       // Show 'exit' button
       GoodbyeBtn.show(wtl::ShowWindowFlags::Show);
 
-      // Handled
-      return 0; 
+      // [Handled] Accept window parameters
+      return {wtl::MsgRoute::Handled, 0};
     }
   
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onDestroy
     //! Called during window destruction
     //! 
-    //! \return wtl::LResult - Message result and routing
+    //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onDestroy() 
     { 
@@ -233,8 +235,8 @@ namespace hw2
       // Close program
       this->template post<wtl::WindowMessage::QUIT>();
 
-      // Handled
-      return 0; 
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
     }
   
     ///////////////////////////////////////////////////////////////////////////////
@@ -260,17 +262,17 @@ namespace hw2
     //! Called to paint the client area of the window
     //! 
     //! \param[in,out] args - Message arguments containing drawing data
-    //! \return wtl::LResult - Message result and routing
+    //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onPaint(wtl::PaintWindowEventArgs<encoding>& args) override
+    wtl::LResult  onPaint(wtl::PaintWindowEventArgs<encoding>& args) 
     {
       static int32_t numEggs = wtl::Random::number(4,8);
 
       // Draw background
       args.Graphics.fill(args.Rect, wtl::StockBrush::Green);
 
-      // Handled
-      return 0; 
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
     }
   
     ///////////////////////////////////////////////////////////////////////////////
@@ -278,12 +280,12 @@ namespace hw2
     //! Called when window is being shown or hidden
     //! 
     //! \param[in] &args - Message arguments 
-    //! \return wtl::LResult - Message result and routing
+    //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onShowWindow(wtl::ShowWindowEventArgs<encoding> args) 
     { 
-      // Handled
-      return 0; 
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
     }
   
 
