@@ -61,22 +61,22 @@ namespace hw2
     // HelloWorld2App::name const 
     //! Get the application name
     //!
-    //! \return const char_t* - Full application name
+    //! \return String<encoding> - Full application name
     /////////////////////////////////////////////////////////////////////////////////////////
-    const char_t* name() const override
+    wtl::String<encoding> name() const override
     {
-      return wtl::choose<ENC>("Hello World 2", L"Hello World 2");
+      return "Hello World 2";
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////
     // HelloWorld2App::version const 
     //! Get the application version
     //!
-    //! \return const char_t* - Version string
+    //! \return String<encoding> - Version string
     /////////////////////////////////////////////////////////////////////////////////////////
-    const char_t* version() const override 
+    wtl::String<encoding> version() const override 
     {
-      return wtl::choose<ENC>("v1.00", L"v1.00");
+      return "v1.00";
     }
 
     // ----------------------------------- MUTATOR METHODS ----------------------------------  

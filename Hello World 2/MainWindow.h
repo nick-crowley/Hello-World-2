@@ -11,7 +11,7 @@
 #include "wtl/WTL.hpp"                                          //!< Windows Template Library
 #include "wtl/utils/Random.hpp"                                 //!< wtl::Random
 #include "wtl/windows/WindowBase.hpp"                           //!< wtl::WindowBase
-#include "wtl/windows/controls/Button.hpp"                      //!< wtl::Button
+#include "wtl/controls/Button.hpp"                              //!< wtl::Button
 #include "wtl/windows/commands/NewDocumentCommand.hpp"          //!< wtl::NewDocumentCommand
 #include "wtl/windows/commands/OpenDocumentCommand.hpp"         //!< wtl::OpenDocumentCommand
 #include "wtl/windows/commands/SaveDocumentCommand.hpp"         //!< wtl::SaveDocumentCommand
@@ -39,6 +39,9 @@ namespace hw2
     //! \alias base - Define base type
     using base = wtl::Button<ENC>;
       
+    //! \alias resource_t - Inherit resource identifier type
+    using resource_t = typename base::resource_t;
+    
     //! \var encoding - Inherit window character encoding
     static constexpr wtl::Encoding  encoding = base::encoding;
   
@@ -63,6 +66,7 @@ namespace hw2
       this->Style    |= wtl::WindowStyle::Visible;
       this->Size      = wtl::SizeL(100,50);
       this->Text      = wtl::c_str(L"Goodbye");
+      this->Icon      = wtl::IconResource(resource_t(wtl::CommandId::App_Exit)).Handle;
         
       // Events
       this->Click += new wtl::ButtonClickEventHandler<encoding>(this, &ExitButton::onClick);
@@ -84,7 +88,7 @@ namespace hw2
     wtl::LResult  onClick(wtl::ButtonClickEventArgs<encoding> args) 
     { 
       // Execute 'Exit Program' gui command
-      this->execute(wtl::CommandId::App_Exit);
+      //this->execute(wtl::CommandId::App_Exit);
     
       // Handled
       return 0;     
