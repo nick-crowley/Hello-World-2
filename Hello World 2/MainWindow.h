@@ -12,6 +12,7 @@
 #include <wtl/utils/Random.hpp>                                 //!< wtl::Random
 #include <wtl/windows/WindowBase.hpp>                           //!< wtl::WindowBase
 #include <wtl/controls/Button.hpp>                              //!< wtl::Button
+#include <wtl/controls/CheckBox.hpp>                            //!< wtl::CheckBox
 #include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
 #include <wtl/windows/commands/OpenDocumentCommand.hpp>         //!< wtl::OpenDocumentCommand
 #include <wtl/windows/commands/SaveDocumentCommand.hpp>         //!< wtl::SaveDocumentCommand
@@ -96,6 +97,7 @@ namespace hw2
     }
   };
 
+
   ///////////////////////////////////////////////////////////////////////////////
   //! \struct MainWindow - Main window class
   //! 
@@ -126,12 +128,14 @@ namespace hw2
     {
       First = int16_t(wtl::WindowId::User),
 
-      Goodbye = First+1,    //!< Exit button
+      Hello = First+1,      //!< CheckBox
+      Goodbye = First+2,    //!< Exit button
     };
   
     // ----------------------------------- REPRESENTATION -----------------------------------
   
-    ExitButton<encoding>  GoodbyeBtn;    //!< 'Exit program' button 
+    ExitButton<encoding>     GoodbyeBtn;     //!< 'Exit program' button 
+    wtl::CheckBox<encoding>  Check1;         //!< Example checkbox
 
     // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
   
@@ -142,7 +146,8 @@ namespace hw2
     //! \param[in] instance - Module handle
     ///////////////////////////////////////////////////////////////////////////////
     MainWindow(::HINSTANCE instance) : base(getClass(instance)), 
-                                       GoodbyeBtn(instance, wtl::window_id(ControlId::Goodbye))
+                                       GoodbyeBtn(instance, wtl::window_id(ControlId::Goodbye)),
+                                       Check1(instance)
     {
       // Properties
       this->Size    = wtl::SizeL(640,480);
@@ -155,6 +160,14 @@ namespace hw2
       this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
       this->Paint   += new wtl::PaintWindowEventHandler<encoding>(this, &MainWindow::onPaint);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
+
+      // Controls
+      Check1.Font     = wtl::HFont(wtl::c_str("MS Shell Dlg 2"), 11, wtl::FontWeight::Bold);
+      Check1.Ident    = wtl::window_id(ControlId::Hello);
+      Check1.Position = wtl::PointL(150,50);
+      Check1.Size     = wtl::SizeL(75,25);
+      Check1.Style   |= wtl::WindowStyle::Visible;
+      Check1.Text     = wtl::c_str(L"Hello");
 
       // Commands: File
       base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),
@@ -212,8 +225,9 @@ namespace hw2
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Edit];
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
 
-      // Create 'exit' button child ctrl
+      // Create child controls
       this->Children.create(GoodbyeBtn);
+      this->Children.create(Check1);
 
       // Show 'exit' button
       GoodbyeBtn.show(wtl::ShowWindowFlags::Show);
