@@ -143,7 +143,7 @@ namespace hw2
     // MainWindow::MainWindow
     //! Create the main window
     //! 
-    //! \param[in] instance - Module handle
+    //! \param[in] instance - Handle to registering module
     ///////////////////////////////////////////////////////////////////////////////
     MainWindow(::HINSTANCE instance) : base(getClass(instance)), 
                                        GoodbyeBtn(instance, wtl::window_id(ControlId::Goodbye)),
@@ -184,6 +184,10 @@ namespace hw2
   
     // ----------------------------------- STATIC METHODS -----------------------------------
   
+    // ---------------------------------- ACCESSOR METHODS ----------------------------------
+
+    // ----------------------------------- MUTATOR METHODS ----------------------------------
+  protected:  
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::getClass 
     //! Get the window class
@@ -191,7 +195,7 @@ namespace hw2
     //! \param[in] instance - Module handle
     //! \return wndclass_t& - Window class 
     ///////////////////////////////////////////////////////////////////////////////
-    static wndclass_t& getClass(::HINSTANCE instance) 
+    wndclass_t& getClass(::HINSTANCE instance) override
     {
       static wndclass_t wc(instance,                                              //!< Registering module
                            wtl::resource_name(L"MainWindowClass"),                //!< Class name
@@ -207,10 +211,7 @@ namespace hw2
       return wc;
     }
   
-    // ---------------------------------- ACCESSOR METHODS ----------------------------------
-
-    // ----------------------------------- MUTATOR METHODS ----------------------------------
-  protected:
+  private:
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCreate
     //! Called during window creation to modify properties on the fly
@@ -303,7 +304,6 @@ namespace hw2
       return {wtl::MsgRoute::Handled, 0};
     }
   
-
   };
 
 } // namespace
