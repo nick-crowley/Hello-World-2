@@ -10,7 +10,7 @@
 
 #include <wtl/WTL.hpp>                                          //!< Windows Template Library
 #include <wtl/utils/Random.hpp>                                 //!< wtl::Random
-#include <wtl/windows/WindowBase.hpp>                           //!< wtl::WindowBase
+#include <wtl/windows/Window.hpp>                               //!< wtl::Window
 #include <wtl/controls/Button.hpp>                              //!< wtl::Button
 #include <wtl/controls/CheckBox.hpp>                            //!< wtl::CheckBox
 #include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
@@ -104,12 +104,12 @@ namespace hw2
   //! \tparam ENC - Window charactrer encoding (Default is UTF-16)
   ///////////////////////////////////////////////////////////////////////////////
   template <wtl::Encoding ENC = wtl::Encoding::UTF16>
-  struct MainWindow : wtl::WindowBase<ENC>
+  struct MainWindow : wtl::Window<ENC>
   {
     // ---------------------------------- TYPES & CONSTANTS ---------------------------------
   
     //! \alias base - Define base type
-    using base = wtl::WindowBase<ENC>;
+    using base = wtl::Window<ENC>;
   
     //! \alias type - Define own type
     using type = MainWindow<ENC>;
