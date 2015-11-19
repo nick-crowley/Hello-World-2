@@ -47,12 +47,14 @@ namespace hw2
 
     ///////////////////////////////////////////////////////////////////////////////
     // HelloWorld2App::HelloWorld2App
-    //! Create application from handle supplied by WinMain(..)
+    //! Create the application
     //!
-    //! \param[in] app - Application handle
+    //! \param[in] app - Application instance
     ///////////////////////////////////////////////////////////////////////////////
-    HelloWorld2App(::HMODULE app) : base(app)
+    HelloWorld2App(::HINSTANCE app) : base(app)
     {
+      // Register custom window classes
+      MainWindow<encoding>::registerClass(app);
     }
 
     // ---------------------------------- ACCESSOR METHODS ----------------------------------

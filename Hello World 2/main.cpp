@@ -12,11 +12,11 @@
 //! Narrow/wide char entry point
 //!
 //! \param[in] instance - Program instance 
-//! \param[in] prevInstance - Legacy
+//! \param[in] previous - Legacy
 //! \param[in] cmdLine - Command line
 //! \param[in] showMode - Desired display mode
 ////////////////////////////////////////////////////////////////////////////////
-int32_t WINAPI _tWinMain(::HINSTANCE instance, ::HINSTANCE prevInstance, PWSTR cmdLine, int32_t showMode)
+int32_t WINAPI _tWinMain(::HINSTANCE instance, ::HINSTANCE previous, PWSTR cmdLine, int32_t showMode)
 {
   try
   {

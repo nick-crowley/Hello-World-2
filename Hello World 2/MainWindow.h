@@ -54,16 +54,11 @@ namespace hw2
     // ExitButton::ExitButton
     //! Creates a standard button control
     //! 
-    //! \param[in] instance - Owning instance
     //! \param[in] id - Control ID
-    //! 
-    //! \throw platform_error - Unrecognised system window class
     /////////////////////////////////////////////////////////////////////////////////////////
-    ExitButton(::HINSTANCE instance, wtl::WindowId id) : base(instance)
+    ExitButton(wtl::WindowId id) : base(id)
     {
       // Properties
-      this->Font      = wtl::HFont(wtl::c_str("MS Shell Dlg 2"), 11, wtl::FontWeight::Bold);
-      this->Ident     = id;
       this->Position  = wtl::PointL(500,50);
       this->Style    |= wtl::WindowStyle::Visible;
       this->Size      = wtl::SizeL(100,50);
@@ -113,12 +108,12 @@ namespace hw2
   
     //! \alias type - Define own type
     using type = MainWindow<ENC>;
+    
+    //! \alias class_t - Inherit window class type
+    using class_t = typename base::class_t;
 
-    //! \alias wndmenu_t - Inherit window menu type
-    using wndmenu_t = typename base::wndmenu_t;
-
-    //! \alias wndclass_t - Inherit window class type
-    using wndclass_t = typename base::wndclass_t;
+    //! \alias menu_t - Inherit window menu type
+    //using menu_t = typename base::menu_t;
 
     //! \var encoding - Inherit window character encoding
     static constexpr wtl::Encoding  encoding = base::encoding;
@@ -142,12 +137,9 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::MainWindow
     //! Create the main window
-    //! 
-    //! \param[in] instance - Handle to registering module
     ///////////////////////////////////////////////////////////////////////////////
-    MainWindow(::HINSTANCE instance) : base(getClass(instance)), 
-                                       GoodbyeBtn(instance, wtl::window_id(ControlId::Goodbye)),
-                                       Check1(instance)
+    MainWindow() : GoodbyeBtn(wtl::window_id(ControlId::Goodbye)),
+                   Check1(wtl::window_id(ControlId::Hello))
     {
       // Properties
       this->Size    = wtl::SizeL(640,480);
@@ -162,8 +154,6 @@ namespace hw2
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       // Controls
-      Check1.Font     = wtl::HFont(wtl::c_str("MS Shell Dlg 2"), 11, wtl::FontWeight::Bold);
-      Check1.Ident    = wtl::window_id(ControlId::Hello);
       Check1.Position = wtl::PointL(150,50);
       Check1.Size     = wtl::SizeL(75,25);
       Check1.Style   |= wtl::WindowStyle::Visible;
@@ -183,34 +173,46 @@ namespace hw2
     }
   
     // ----------------------------------- STATIC METHODS -----------------------------------
-  
-    // ---------------------------------- ACCESSOR METHODS ----------------------------------
-
-    // ----------------------------------- MUTATOR METHODS ----------------------------------
-  protected:  
+  public:
     ///////////////////////////////////////////////////////////////////////////////
-    // MainWindow::getClass 
-    //! Get the window class
+    // MainWindow::registerClass 
+    //! Registers the window-class 
     //! 
-    //! \param[in] instance - Module handle
-    //! \return wndclass_t& - Window class 
+    //! \param[in] instance - Registering module 
+    //! \return const WindowClass<encoding>& - Shared window class 
+    //! 
+    //! \throw wtl::platform_error - Unable to register window class
     ///////////////////////////////////////////////////////////////////////////////
-    wndclass_t& getClass(::HINSTANCE instance) override
+    static const wtl::WindowClass<encoding>& registerClass(::HINSTANCE instance) 
     {
-      static wndclass_t wc(instance,                                              //!< Registering module
-                           wtl::resource_name(L"MainWindowClass"),                //!< Class name
-                           wtl::ClassStyle::HRedraw|wtl::ClassStyle::VRedraw,     //!< Styles (Redraw upon resize)
-                           base::WndProc,                                         //!< Window procedure
-                           wtl::ResourceIdW(),                                    //!< Window menu 
-                           wtl::HCursor(wtl::SystemCursor::Arrow),                //!< Window cursor
-                           wtl::HBrush(wtl::Colour::Green),                       //!< Window background brush 
-                           wtl::HIcon(wtl::SystemIcon::WinLogo),                  //!< Large window icon 
-                           wtl::HIcon(wtl::SystemIcon::WinLogo));                 //!< Small window icon 
+      static wtl::WindowClass<encoding> wc(instance,                                              //!< Registering module
+                                           wtl::resource_name(L"MainWindowClass"),                //!< Class name
+                                           wtl::ClassStyle::HRedraw|wtl::ClassStyle::VRedraw,     //!< Styles (Redraw upon resize)
+                                           base::WndProc,                                         //!< Window procedure
+                                           wtl::ResourceIdW(),                                    //!< Window menu 
+                                           wtl::HCursor(wtl::SystemCursor::Arrow),                //!< Window cursor
+                                           wtl::HBrush(wtl::Colour::Green),                       //!< Window background brush 
+                                           wtl::HIcon(wtl::SystemIcon::WinLogo),                  //!< Large window icon 
+                                           wtl::HIcon(wtl::SystemIcon::WinLogo));                 //!< Small window icon 
 
       // Return singleton
       return wc;
     }
-  
+
+    // ---------------------------------- ACCESSOR METHODS ----------------------------------
+  public:
+    /////////////////////////////////////////////////////////////////////////////////////////
+    // MainWindow::wndclass const
+    //! Get the window class
+    //! 
+    //! \return const WindowClass<encoding>& - Shared window class
+    /////////////////////////////////////////////////////////////////////////////////////////
+    const wtl::WindowClass<encoding>& wndclass() const override
+    {
+      return registerClass(nullptr);
+    }
+    
+    // ----------------------------------- MUTATOR METHODS ----------------------------------
   private:
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCreate
