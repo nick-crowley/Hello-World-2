@@ -156,8 +156,8 @@ namespace hw2
       // Controls
       Check1.Position = wtl::PointL(150,50);
       Check1.Size     = wtl::SizeL(75,25);
-      Check1.Style   |= wtl::WindowStyle::Visible;
       Check1.Text     = wtl::c_str(L"Hello");
+      Check1.Visible  = true;
 
       // Commands: File
       base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),
@@ -185,8 +185,10 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     static const wtl::WindowClass<encoding>& registerClass(::HINSTANCE instance) 
     {
+      static wtl::String<encoding> name("MainWindowClass");
+
       static wtl::WindowClass<encoding> wc(instance,                                              //!< Registering module
-                                           wtl::resource_name(L"MainWindowClass"),                //!< Class name
+                                           name.c_str(),                                          //!< Class name
                                            wtl::ClassStyle::HRedraw|wtl::ClassStyle::VRedraw,     //!< Styles (Redraw upon resize)
                                            base::WndProc,                                         //!< Window procedure
                                            wtl::ResourceIdW(),                                    //!< Window menu 
