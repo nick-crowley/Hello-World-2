@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
-    <PlatformToolset>Clang_v3.8</PlatformToolset>
+    <PlatformToolset>GCC_v5.2</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|TDM-Mingw32'">
     <PlatformToolset>GCC_v5.2</PlatformToolset>
@@ -58,19 +58,35 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\MSVC2015\VC\include;$(WindowsSdk_71A_IncludePath);D:\My Projects\WTL;$(IncludePath)</IncludePath>
-    <LibraryPath>$(WindowsSdk_71A_LibraryPath_x86);D:\My Projects\WTL\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\WTL;$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\WTL\$(Configuration)\$(Platform);$(WindowsSdk_71A_LibraryPath_x86);$(LibraryPath)</LibraryPath>
     <LibraryWPath />
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\MSVC2015\VC\include;$(WindowsSdk_71A_IncludePath);D:\My Projects\WTL;$(IncludePath)</IncludePath>
-    <LibraryPath>$(WindowsSdk_71A_LibraryPath_x86);D:\My Projects\WTL\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\WTL;$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\WTL\$(Configuration)\$(Platform);$(WindowsSdk_71A_LibraryPath_x86);$(LibraryPath)</LibraryPath>
     <LibraryWPath />
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
     <MinGWInstallFolder>D:\TDM-GCC-64</MinGWInstallFolder>
     <LLVMInstallFolder>d:\LLVM</LLVMInstallFolder>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    <IncludePath>$(SolutionDir)..\WTL;$(MingIncludePath);$(StdLibIncludePath);$(WinApiIncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\WTL\$(Configuration)\$(Platform);$(StdLibLibraryPath);$(WinApiLibraryPath);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|TDM-Mingw32'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    <MinGWInstallFolder>D:\TDM-GCC-64</MinGWInstallFolder>
+    <LLVMInstallFolder>d:\LLVM</LLVMInstallFolder>
+    <IncludePath>$(SolutionDir)..\WTL;$(MingIncludePath);$(StdLibIncludePath);$(WinApiIncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\WTL\$(Configuration)\$(Platform);$(StdLibLibraryPath);$(WinApiLibraryPath);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,7 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>shlwapi.lib;D:\My Projects\WTL\Debug\WTL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;WTL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,20 +119,21 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>shlwapi.lib;D:\My Projects\WTL\Release\WTL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;WTL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
     <Link>
       <ThreadSupport>false</ThreadSupport>
-      <AdditionalDependencies>D:\MYPROJ~1\WTL\TDM-Mingw32\Debug\libWTL.a;D:\TDM-GCC-64\x86_64-w64-mingw32\lib32\libUxtheme.a;D:\TDM-GCC-64\x86_64-w64-mingw32\lib32\libShlwapi.a</AdditionalDependencies>
+      <AdditionalDependencies>libWTL.a;Uxtheme.a;Shlwapi.a</AdditionalDependencies>
       <UnicodeBuild>true</UnicodeBuild>
       <LibraryDependencies>
       </LibraryDependencies>
     </Link>
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\My Projects\WTL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <DebugInformation>Full</DebugInformation>
       <DebugInformationFormat>DWARF2</DebugInformationFormat>
