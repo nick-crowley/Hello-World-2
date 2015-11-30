@@ -13,11 +13,14 @@
 #define _WIN32_WINNT    _WIN32_WINNT_WINXP
 //#include <SDKDDKVer.h>
 
-#include <wtl/WTL.hpp>                      //!< Windows Template Library
-#include <wtl/modules/Application.hpp>      //!< wtl::Application
-#include "MainWindow.h"                     //!< hw1::Mainwindow
+#include <wtl/WTL.hpp>                          //!< Windows Template Library
+#include <wtl/modules/Application.hpp>          //!< wtl::Application
+#include <wtl/windows/skins/ThemedSkin.hpp>     //!< wtl::ThemedSkin
+#include "MainWindow.h"                         //!< hw1::Mainwindow
 
+///////////////////////////////////////////////////////////////////////////////
 //! \namespace hw2 - Hello World v2 (Controls demonstration)
+///////////////////////////////////////////////////////////////////////////////
 namespace hw2
 {
 
@@ -43,8 +46,10 @@ namespace hw2
     //! \var encoding - Define app character encoding
     static constexpr wtl::Encoding  encoding = ENC;
   
-    // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
-
+    // ----------------------------------- REPRESENTATION -----------------------------------
+    
+    // ------------------------------------ CONSTRUCTION ------------------------------------
+    
     ///////////////////////////////////////////////////////////////////////////////
     // HelloWorld2App::HelloWorld2App
     //! Create the application
@@ -55,8 +60,13 @@ namespace hw2
     {
       // Register custom window classes
       MainWindow<encoding>::registerClass(app);
-    }
 
+      // Set default skin
+      wtl::ThemedSkin<encoding>::get();
+    }
+    
+    // -------------------------------- COPY, MOVE & DESTROY --------------------------------
+    
     // ---------------------------------- ACCESSOR METHODS ----------------------------------
     
     /////////////////////////////////////////////////////////////////////////////////////////

@@ -11,8 +11,8 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Debug|x86.ActiveCfg = Debug|TDM-Mingw32
-		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Debug|x86.Build.0 = Debug|TDM-Mingw32
+		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Debug|x86.ActiveCfg = Debug|Win32
+		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Debug|x86.Build.0 = Debug|Win32
 		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Release|x86.ActiveCfg = Release|Win32
 		{76A914A2-821F-4A5F-AB0F-738971F190E1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
