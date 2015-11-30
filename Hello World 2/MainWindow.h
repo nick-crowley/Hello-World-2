@@ -158,6 +158,7 @@ namespace hw2
       Check1.Size     = wtl::SizeL(75,25);
       Check1.Text     = wtl::c_str(L"Hello");
       Check1.Visible  = true;
+      Check1.Checked  = wtl::ButtonState::Checked;
 
       // Commands: File
       base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),

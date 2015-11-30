@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|TDM-Mingw32'">
-    <PlatformToolset>GCC_v5.2</PlatformToolset>
+    <PlatformToolset>Clang_v3.8</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|TDM-Mingw32'">
     <PlatformToolset>GCC_v5.2</PlatformToolset>
