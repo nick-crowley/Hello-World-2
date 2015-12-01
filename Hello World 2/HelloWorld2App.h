@@ -8,6 +8,9 @@
 #ifndef HW2_APPLICATION_H
 #define HW2_APPLICATION_H
 
+//! \def _WIN32_WINNT - Define build target (Windows XP)
+#define _WIN32_WINNT    _WIN32_WINNT_WINXP
+
 #include <wtl/WTL.hpp>                          //!< Windows Template Library
 #include <wtl/modules/Application.hpp>          //!< wtl::Application
 #include <wtl/windows/skins/ThemedSkin.hpp>     //!< wtl::ThemedSkin

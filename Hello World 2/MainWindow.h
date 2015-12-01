@@ -13,6 +13,7 @@
 #include <wtl/windows/Window.hpp>                               //!< wtl::Window
 #include <wtl/windows/controls/Button.hpp>                      //!< wtl::Button
 #include <wtl/windows/controls/CheckBox.hpp>                    //!< wtl::CheckBox
+#include <wtl/windows/controls/Edit.hpp>                        //!< wtl::Edit
 #include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
 #include <wtl/windows/commands/OpenDocumentCommand.hpp>         //!< wtl::OpenDocumentCommand
 #include <wtl/windows/commands/SaveDocumentCommand.hpp>         //!< wtl::SaveDocumentCommand
@@ -52,14 +53,18 @@ namespace hw2
     {
       First = int16_t(wtl::WindowId::User),
 
-      Hello = First+1,      //!< CheckBox
-      Goodbye = First+2,    //!< Exit button
+      Exit = First+1,       //!< Button
+      Tick1 = First+2,      //!< Checkbox
+      Tick2 = First+3,      //!< Checkbox
+      Text = First+4,       //!< Edit
     };
   
     // ----------------------------------- REPRESENTATION -----------------------------------
   
-    ExitButton<encoding>     GoodbyeBtn;     //!< 'Exit program' button 
-    wtl::CheckBox<encoding>  Check1;         //!< Example checkbox
+    ExitButton<encoding>     Button1;         //!< 'Exit' button 
+    wtl::CheckBox<encoding>  Check1,          //!< Example checkbox
+                             Check2;          //!< Example checkbox
+    wtl::Edit<encoding>      Edit1;           //!< Example edit control
 
     // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
   
@@ -67,14 +72,16 @@ namespace hw2
     // MainWindow::MainWindow
     //! Create the main window
     ///////////////////////////////////////////////////////////////////////////////
-    MainWindow() : GoodbyeBtn(wtl::window_id(ControlId::Goodbye)),
-                   Check1(wtl::window_id(ControlId::Hello))
+    MainWindow() : Button1(wtl::window_id(ControlId::Exit)),
+                   Check1(wtl::window_id(ControlId::Tick1)),
+                   Check2(wtl::window_id(ControlId::Tick2)),
+                   Edit1(wtl::window_id(ControlId::Text))
     {
       //! Initialize window properties
       this->Size    = wtl::SizeL(640,480);
       this->Style   = wtl::WindowStyle::OverlappedWindow;
       this->StyleEx = wtl::WindowStyleEx::None;
-      this->Text    = "Hello World";
+      this->Text    = "Hello World 2";
       
       //! Register for window events
       this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
@@ -83,11 +90,26 @@ namespace hw2
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       //! Initialize child controls
-      Check1.Position = wtl::PointL(150,50);
-      Check1.Size     = wtl::SizeL(75,25);
-      Check1.Text     = "Hello";
+      Check1.Position = wtl::PointL(50,50);
+      Check1.Size     = wtl::SizeL(150,25);
+      Check1.Text     = "Initially ticked";
       Check1.Visible  = true;
-      Check1.Checked  = wtl::ButtonState::Checked;
+      Check1.Check    = wtl::ButtonState::Checked;
+      
+      //! Initialize child controls
+      Check2.Position = wtl::PointL(50,100);
+      Check2.Size     = wtl::SizeL(150,25);
+      Check2.Text     = "Initially unticked";
+      Check2.Visible  = true;
+      Check2.Check    = wtl::ButtonState::Unchecked;
+
+      //! Initialise edit control
+      Edit1.Position = wtl::PointL(250,50);
+      Edit1.Size     = wtl::SizeL(350,150);
+      Edit1.Style   |= wtl::EditStyle::Multiline;
+      Edit1.Text     = "There once was a bear from nantucket\r\n" 
+                       "Who desired a less ordinary bucket.";
+      Edit1.Visible  = true;
     }
   
     // ----------------------------------- STATIC METHODS -----------------------------------
@@ -148,11 +170,13 @@ namespace hw2
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
 
       // Create child controls
-      this->Children.create(GoodbyeBtn);
+      this->Children.create(Button1);
       this->Children.create(Check1);
+      this->Children.create(Check2);
+      this->Children.create(Edit1);
 
       // Show 'exit' button
-      GoodbyeBtn.show(wtl::ShowWindowFlags::Show);
+      Button1.show(wtl::ShowWindowFlags::Show);
 
       // [Handled] Accept window parameters
       return {wtl::MsgRoute::Handled, 0};
@@ -167,7 +191,10 @@ namespace hw2
     wtl::LResult  onDestroy() 
     { 
       // Destroy children
-      GoodbyeBtn.destroy();
+      Button1.destroy();
+      Check1.destroy();
+      Check2.destroy();
+      Edit1.destroy();
 
       // Close program
       this->template post<wtl::WindowMessage::Quit>();

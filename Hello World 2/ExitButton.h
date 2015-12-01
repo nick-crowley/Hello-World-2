@@ -48,10 +48,10 @@ namespace hw2
     {
       // Initialize window properties
       this->Icon      = wtl::icon_resource<encoding>(wtl::CommandId::App_Exit).Handle;
-      this->Position  = wtl::PointL(500,50);
+      this->Position  = wtl::PointL(480,350);
       this->Style    |= wtl::WindowStyle::Visible;
-      this->Size      = wtl::SizeL(100,50);
-      this->Text      = "Goodbye";
+      this->Size      = wtl::SizeL(120,50);
+      this->Text      = "Exit Program";
         
       // Register for events
       this->Click += new wtl::ButtonClickEventHandler<encoding>(this, &ExitButton::onClick);
