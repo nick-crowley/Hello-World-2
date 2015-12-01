@@ -11,8 +11,8 @@
 #include <wtl/WTL.hpp>                                          //!< Windows Template Library
 #include <wtl/utils/Random.hpp>                                 //!< wtl::Random
 #include <wtl/windows/Window.hpp>                               //!< wtl::Window
-#include <wtl/controls/Button.hpp>                              //!< wtl::Button
-#include <wtl/controls/CheckBox.hpp>                            //!< wtl::CheckBox
+#include <wtl/windows/controls/Button.hpp>                      //!< wtl::Button
+#include <wtl/windows/controls/CheckBox.hpp>                    //!< wtl::CheckBox
 #include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
 #include <wtl/windows/commands/OpenDocumentCommand.hpp>         //!< wtl::OpenDocumentCommand
 #include <wtl/windows/commands/SaveDocumentCommand.hpp>         //!< wtl::SaveDocumentCommand
