@@ -18,7 +18,7 @@
 namespace hw2
 {
   /////////////////////////////////////////////////////////////////////////////////////////
-  //! \struct ExitButton - Defines the 'exit' button control
+  //! \struct ExitButton - Example of a button control customized as a separate class rather than a field of the main window
   /////////////////////////////////////////////////////////////////////////////////////////
   template <wtl::Encoding ENC>
   struct ExitButton : wtl::Button<ENC>
@@ -31,9 +31,6 @@ namespace hw2
     //! \alias base - Define base type
     using base = wtl::Button<ENC>;
       
-    //! \alias resource_t - Inherit resource identifier type
-    using resource_t = typename base::resource_t;
-    
     //! \var encoding - Inherit window character encoding
     static constexpr wtl::Encoding  encoding = base::encoding;
   

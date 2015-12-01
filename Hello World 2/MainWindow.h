@@ -88,14 +88,6 @@ namespace hw2
       Check1.Text     = "Hello";
       Check1.Visible  = true;
       Check1.Checked  = wtl::ButtonState::Checked;
-
-      //! Attach 'File' menu GUI commands
-      this->CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),
-                                                                                          new wtl::OpenDocumentCommand<encoding>(*this),
-                                                                                          new wtl::SaveDocumentCommand<encoding>(*this),
-                                                                                          new wtl::ExitProgramCommand<encoding>(*this) });
-      //! Attach 'Help' menu GUI commands 
-      this->CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, { new wtl::AboutProgramCommand<encoding>(*this) });
     }
   
     // ----------------------------------- STATIC METHODS -----------------------------------
@@ -151,7 +143,7 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) 
     { 
-      // Populate window menu
+      // Populate window menu from GUI commands
       this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
 

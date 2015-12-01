@@ -53,11 +53,21 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     HelloWorld2App(::HINSTANCE app) : base(app)
     {
-      // Register custom window classes
+      // Initialize default window skin
+      wtl::ThemedSkin<encoding>::get();
+
+      // Register main window class
       MainWindow<encoding>::registerClass(app);
 
-      // Set default skin
-      wtl::ThemedSkin<encoding>::get();
+      //! Populate the program GUI commands  ['File' command grouping]
+      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { 
+                                                                             new wtl::NewDocumentCommand<encoding>(this->window()),
+                                                                             new wtl::OpenDocumentCommand<encoding>(this->window()),
+                                                                             new wtl::SaveDocumentCommand<encoding>(this->window()),
+                                                                             new wtl::ExitProgramCommand<encoding>(this->window()) });
+      //! Populate the program GUI commands  ['Help' command grouping]
+      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, { 
+                                                                             new wtl::AboutProgramCommand<encoding>(this->window()) });
     }
     
     // -------------------------------- COPY, MOVE & DESTROY --------------------------------
@@ -99,18 +109,19 @@ namespace hw2
     void onStart(wtl::ShowWindowFlags mode) override
     {
       // Create window
-      this->Window.create();
+      this->window().create();
     
       // Show window
-      this->Window.show(mode);
-      this->Window.update();
+      this->window().show(mode);
+      this->window().update();
     }
 
     // ----------------------------------- REPRESENTATION -----------------------------------
   };
 
-
+  ///////////////////////////////////////////////////////////////////////////////
   //! \alias application_t - Define ANSI/UNICODE application type according to build settings (Size of TCHAR)
+  ///////////////////////////////////////////////////////////////////////////////
   using application_t = HelloWorld2App<wtl::default_encoding_t<::TCHAR>::value>;
 
 } // namespace
