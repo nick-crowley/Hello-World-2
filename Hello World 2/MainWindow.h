@@ -63,7 +63,7 @@ namespace hw2
       this->Style    |= wtl::WindowStyle::Visible;
       this->Size      = wtl::SizeL(100,50);
       this->Text      = wtl::c_str(L"Goodbye");
-      this->Icon      = wtl::IconResource(resource_t(wtl::CommandId::App_Exit)).Handle;
+      this->Icon      = wtl::icon_resource<encoding>(wtl::CommandId::App_Exit).Handle;
         
       // Events
       this->Click += new wtl::ButtonClickEventHandler<encoding>(this, &ExitButton::onClick);
