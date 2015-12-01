@@ -153,6 +153,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExitButton.h" />
     <ClInclude Include="HelloWorld2App.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="resource.h" />

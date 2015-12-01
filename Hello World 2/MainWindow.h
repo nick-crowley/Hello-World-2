@@ -5,8 +5,8 @@
 //! \author Nick Crowley
 //! \copyright © Nick Crowley. All rights reserved.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef HW2_MAIN_WINDOW_H
+#define HW2_MAIN_WINDOW_H
 
 #include <wtl/WTL.hpp>                                          //!< Windows Template Library
 #include <wtl/utils/Random.hpp>                                 //!< wtl::Random
@@ -16,83 +16,15 @@
 #include <wtl/windows/commands/NewDocumentCommand.hpp>          //!< wtl::NewDocumentCommand
 #include <wtl/windows/commands/OpenDocumentCommand.hpp>         //!< wtl::OpenDocumentCommand
 #include <wtl/windows/commands/SaveDocumentCommand.hpp>         //!< wtl::SaveDocumentCommand
-#include <wtl/windows/commands/CutClipboardCommand.hpp>         //!< wtl::CutClipboardCommand
-#include <wtl/windows/commands/CopyClipboardCommand.hpp>        //!< wtl::CopyClipboardCommand
-#include <wtl/windows/commands/PasteClipboardCommand.hpp>       //!< wtl::PasteClipboardCommand
 #include <wtl/windows/commands/AboutProgramCommand.hpp>         //!< wtl::AboutProgramCommand
 #include <wtl/windows/commands/ExitProgramCommand.hpp>          //!< wtl::ExitProgramCommand
+#include "ExitButton.h"                                         //!< ExitButton
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
 //! \namespace hw2 - Hello World v2 (Controls demonstration)
+/////////////////////////////////////////////////////////////////////////////////////////
 namespace hw2
 {
-  /////////////////////////////////////////////////////////////////////////////////////////
-  //! \struct ExitButton - Defines the 'exit' button control
-  /////////////////////////////////////////////////////////////////////////////////////////
-  template <wtl::Encoding ENC>
-  struct ExitButton : wtl::Button<ENC>
-  {
-    // ---------------------------------- TYPES & CONSTANTS ---------------------------------
-  
-    //! \alias type - Define own type
-    using type = ExitButton;
-
-    //! \alias base - Define base type
-    using base = wtl::Button<ENC>;
-      
-    //! \alias resource_t - Inherit resource identifier type
-    using resource_t = typename base::resource_t;
-    
-    //! \var encoding - Inherit window character encoding
-    static constexpr wtl::Encoding  encoding = base::encoding;
-  
-    // ----------------------------------- REPRESENTATION -----------------------------------
-      
-    // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
-    
-    /////////////////////////////////////////////////////////////////////////////////////////
-    // ExitButton::ExitButton
-    //! Creates a standard button control
-    //! 
-    //! \param[in] id - Control ID
-    /////////////////////////////////////////////////////////////////////////////////////////
-    ExitButton(wtl::WindowId id) : base(id)
-    {
-      // Properties
-      this->Position  = wtl::PointL(500,50);
-      this->Style    |= wtl::WindowStyle::Visible;
-      this->Size      = wtl::SizeL(100,50);
-      this->Text      = wtl::c_str(L"Goodbye");
-      this->Icon      = wtl::icon_resource<encoding>(wtl::CommandId::App_Exit).Handle;
-        
-      // Events
-      this->Click += new wtl::ButtonClickEventHandler<encoding>(this, &ExitButton::onClick);
-    }
-      
-    // ----------------------------------- STATIC METHODS -----------------------------------
-
-    // ---------------------------------- ACCESSOR METHODS ----------------------------------
-
-    // ----------------------------------- MUTATOR METHODS ----------------------------------
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // ExitButton::onClick
-    //! Exits the program
-    //! 
-    //! \param[in] args - Message arguments
-    //! \return wtl::LResult - Message result and routing
-    ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onClick(wtl::ButtonClickEventArgs<encoding> args) 
-    { 
-      // Execute 'Exit Program' gui command
-      //this->execute(wtl::CommandId::App_Exit);
-    
-      // Handled
-      return 0;     
-    }
-  };
-
-
   ///////////////////////////////////////////////////////////////////////////////
   //! \struct MainWindow - Main window class
   //! 
@@ -111,9 +43,6 @@ namespace hw2
     
     //! \alias class_t - Inherit window class type
     using class_t = typename base::class_t;
-
-    //! \alias menu_t - Inherit window menu type
-    //using menu_t = typename base::menu_t;
 
     //! \var encoding - Inherit window character encoding
     static constexpr wtl::Encoding  encoding = base::encoding;
@@ -141,36 +70,32 @@ namespace hw2
     MainWindow() : GoodbyeBtn(wtl::window_id(ControlId::Goodbye)),
                    Check1(wtl::window_id(ControlId::Hello))
     {
-      // Properties
+      //! Initialize window properties
       this->Size    = wtl::SizeL(640,480);
       this->Style   = wtl::WindowStyle::OverlappedWindow;
       this->StyleEx = wtl::WindowStyleEx::None;
-      this->Text    = wtl::c_str(L"Hello World");
+      this->Text    = "Hello World";
       
-      // Events
+      //! Register for window events
       this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
       this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
       this->Paint   += new wtl::PaintWindowEventHandler<encoding>(this, &MainWindow::onPaint);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
-      // Controls
+      //! Initialize child controls
       Check1.Position = wtl::PointL(150,50);
       Check1.Size     = wtl::SizeL(75,25);
-      Check1.Text     = wtl::c_str(L"Hello");
+      Check1.Text     = "Hello";
       Check1.Visible  = true;
       Check1.Checked  = wtl::ButtonState::Checked;
 
-      // Commands: File
-      base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),
+      //! Attach 'File' menu GUI commands
+      this->CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { new wtl::NewDocumentCommand<encoding>(*this),
                                                                                           new wtl::OpenDocumentCommand<encoding>(*this),
                                                                                           new wtl::SaveDocumentCommand<encoding>(*this),
                                                                                           new wtl::ExitProgramCommand<encoding>(*this) });
-      // Commands: Edit
-      base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Edit, { new wtl::CutClipboardCommand<encoding>(),
-                                                                                          new wtl::CopyClipboardCommand<encoding>(),
-                                                                                          new wtl::PasteClipboardCommand<encoding>() });
-      // Commands: Help
-      base::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, { new wtl::AboutProgramCommand<encoding>(*this) });
+      //! Attach 'Help' menu GUI commands 
+      this->CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, { new wtl::AboutProgramCommand<encoding>(*this) });
     }
   
     // ----------------------------------- STATIC METHODS -----------------------------------
@@ -228,7 +153,6 @@ namespace hw2
     { 
       // Populate window menu
       this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
-      this->Menu += base::CommandGroups[wtl::CommandGroupId::Edit];
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
 
       // Create child controls
@@ -261,24 +185,6 @@ namespace hw2
     }
   
     ///////////////////////////////////////////////////////////////////////////////
-    // MainWindow::onOwnerDraw
-    //! Called to paint the button
-    //! 
-    //! \param[in,out] args - Message arguments containing drawing data
-    //! \return wtl::LResult - Message result and routing
-    ///////////////////////////////////////////////////////////////////////////////
-    //wtl::LResult  onOwnerDraw(OwnerDrawEventArgs<encoding>& args)
-    //{
-    //  if (args.Ident == ControlId::Goodbye)
-    //  {
-    //    args.Graphics.fill(args.Rect, wtl::StockBrush::Green);
-    //  }
-
-    //  // Handled
-    //  return 0;
-    //}
-
-    ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onPaint
     //! Called to paint the client area of the window
     //! 
@@ -287,10 +193,8 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onPaint(wtl::PaintWindowEventArgs<encoding>& args) 
     {
-      static int32_t numEggs = wtl::Random::number(4,8);
-
       // Draw background
-      args.Graphics.fill(args.Rect, wtl::StockBrush::Green);
+      args.Graphics.fill(args.Rect, wtl::StockBrush::AppWorkspace);
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};

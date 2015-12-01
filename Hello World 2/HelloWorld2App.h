@@ -5,8 +5,8 @@
 //! \author Nick Crowley
 //! \copyright © Nick Crowley. All rights reserved.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef HELLO_WORLD_H
-#define HELLO_WORLD_H
+#ifndef HW2_APPLICATION_H
+#define HW2_APPLICATION_H
 
 #include <wtl/WTL.hpp>                          //!< Windows Template Library
 #include <wtl/modules/Application.hpp>          //!< wtl::Application
