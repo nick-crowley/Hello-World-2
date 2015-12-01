@@ -8,11 +8,6 @@
 #ifndef HELLO_WORLD_H
 #define HELLO_WORLD_H
 
-// Target Platform v5.01 (WindowsXP)
-//#include <WinSDKVer.h>
-#define _WIN32_WINNT    _WIN32_WINNT_WINXP
-//#include <SDKDDKVer.h>
-
 #include <wtl/WTL.hpp>                          //!< Windows Template Library
 #include <wtl/modules/Application.hpp>          //!< wtl::Application
 #include <wtl/windows/skins/ThemedSkin.hpp>     //!< wtl::ThemedSkin
