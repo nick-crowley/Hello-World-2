@@ -7,6 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "HelloWorld2App.h"   
 
+// Import Common controls v6.0
+//#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 ////////////////////////////////////////////////////////////////////////////////
 // ::_tWinMain
 //! Narrow/wide char entry point
@@ -27,7 +30,7 @@ int32_t WINAPI _tWinMain(::HINSTANCE instance, ::HINSTANCE previous, PWSTR cmdLi
   }
   catch (std::exception& e)
   {
-    wtl::cdebug << wtl::caught_exception("An unhandled exception caused a terminal error", HERE, e);
+    wtl::errorBox<hw2::encoding>(NULL, wtl::caught_exception("An unhandled exception caused a terminal error", HERE, e));
     return -1;
   }
 }

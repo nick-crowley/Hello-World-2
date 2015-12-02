@@ -73,7 +73,7 @@ namespace hw2
     wtl::LResult  onClick(wtl::ButtonClickEventArgs<encoding> args) 
     { 
       // Execute the 'Exit Program' gui command
-      this->execute(wtl::CommandId::App_Exit);
+      //this->execute(wtl::CommandId::App_Exit);
     
       // Handled
       return {wtl::MsgRoute::Handled, 0};

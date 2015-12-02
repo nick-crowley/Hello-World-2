@@ -83,10 +83,9 @@ namespace hw2
       this->StyleEx = wtl::WindowStyleEx::None;
       this->Text    = "Hello World 2";
       
-      //! Register for window events
+      //! Listen for window events
       this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
       this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
-      this->Paint   += new wtl::PaintWindowEventHandler<encoding>(this, &MainWindow::onPaint);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       //! Initialize child controls
@@ -95,6 +94,7 @@ namespace hw2
       Check1.Text     = "Initially ticked";
       Check1.Visible  = true;
       Check1.Check    = wtl::ButtonState::Checked;
+      Check1.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck1_Checked);
       
       //! Initialize child controls
       Check2.Position = wtl::PointL(50,100);
@@ -102,13 +102,14 @@ namespace hw2
       Check2.Text     = "Initially unticked";
       Check2.Visible  = true;
       Check2.Check    = wtl::ButtonState::Unchecked;
-
+      Check2.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck2_Checked);
+      
       //! Initialise edit control
       Edit1.Position = wtl::PointL(250,50);
       Edit1.Size     = wtl::SizeL(350,150);
       Edit1.Style   |= wtl::EditStyle::Multiline;
       Edit1.Text     = "There once was a bear from nantucket\r\n" 
-                       "Who desired a less ordinary bucket.";
+                       "Who desired a less ordinary bucket.\r\n";
       Edit1.Visible  = true;
     }
   
@@ -157,10 +158,60 @@ namespace hw2
     // ----------------------------------- MUTATOR METHODS ----------------------------------
   private:
     ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onCheck1_Checked
+    //! Called when the second checkbox is checked or unchecked
+    //! 
+    //! \param[in] args - Message arguments 
+    //! \return wtl::LResult - Routing indicating message was handled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult  onCheck1_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
+    { 
+      // Query new state and append text box
+      switch (Check1.Check) 
+      {
+      case wtl::ButtonState::Checked:       Edit1.Text += L"'Check1' checked \r\n";       break;
+      case wtl::ButtonState::Unchecked:     Edit1.Text += L"'Check1' unchecked \r\n";     break;
+      case wtl::ButtonState::Indeterminate: Edit1.Text += L"'Check1' indeterminate \r\n"; break;
+      }
+
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onCheck2_Checked
+    //! Called when the second checkbox is checked or unchecked
+    //! 
+    //! \param[in] args - Message arguments 
+    //! \return wtl::LResult - Routing indicating message was handled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult  onCheck2_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
+    { 
+      // Query new state and append text box
+      switch (Check2.Check) 
+      {
+      case wtl::ButtonState::Checked:       Edit1.Text += L"'Check2' checked \r\n";       break;
+      case wtl::ButtonState::Unchecked:     Edit1.Text += L"'Check2' unchecked \r\n";     break;
+      case wtl::ButtonState::Indeterminate: Edit1.Text += L"'Check2' indeterminate \r\n"; break;
+      }
+
+      // debug
+      Check1.Check = wtl::ButtonState::Indeterminate;
+      
+      wtl::cdebug << "Check1.Check == " << Button_GetCheck(Check1.handle()) << std::endl
+                  << "Check2.Check == " << Button_GetCheck(Check2.handle()) << std::endl;
+
+      //Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 14);
+
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCreate
     //! Called during window creation to modify properties on the fly
     //! 
-    //! \param[in] &args - Message arguments containing window creation properties 
+    //! \param[in,out] &args - Message arguments containing window creation properties 
     //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) 
@@ -174,6 +225,8 @@ namespace hw2
       this->Children.create(Check1);
       this->Children.create(Check2);
       this->Children.create(Edit1);
+
+      Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 14);
 
       // Show 'exit' button
       Button1.show(wtl::ShowWindowFlags::Show);
@@ -197,23 +250,7 @@ namespace hw2
       Edit1.destroy();
 
       // Close program
-      this->template post<wtl::WindowMessage::Quit>();
-
-      // [Handled] 
-      return {wtl::MsgRoute::Handled, 0};
-    }
-  
-    ///////////////////////////////////////////////////////////////////////////////
-    // MainWindow::onPaint
-    //! Called to paint the client area of the window
-    //! 
-    //! \param[in,out] args - Message arguments containing drawing data
-    //! \return wtl::LResult - Routing indicating message was handled
-    ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onPaint(wtl::PaintWindowEventArgs<encoding>& args) 
-    {
-      // Draw background
-      args.Graphics.fill(args.Rect, wtl::StockBrush::AppWorkspace);
+      this->post(wtl::WindowMessage::Quit);
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
