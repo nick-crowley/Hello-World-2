@@ -48,6 +48,7 @@ END
 //
 // Icon Resources
 //
+APP_ICON          ICON    "res\\Program.ico"
 
 ID_FILE_NEW       ICON    "res\\Command - NewFile.ico"
 ID_FILE_OPEN      ICON    "res\\Command - OpenFile.ico"
