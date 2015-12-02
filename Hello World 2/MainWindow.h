@@ -56,14 +56,16 @@ namespace hw2
       Exit = First+1,       //!< Button
       Tick1 = First+2,      //!< Checkbox
       Tick2 = First+3,      //!< Checkbox
-      Text = First+4,       //!< Edit
+      Tick3 = First+4,      //!< Checkbox
+      Text = First+5,       //!< Edit
     };
   
     // ----------------------------------- REPRESENTATION -----------------------------------
   
     ExitButton<encoding>     Button1;         //!< 'Exit' button 
     wtl::CheckBox<encoding>  Check1,          //!< Example checkbox
-                             Check2;          //!< Example checkbox
+                             Check2,          //!< Example checkbox
+                             Check3;          //!< Example checkbox
     wtl::Edit<encoding>      Edit1;           //!< Example edit control
 
     // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
@@ -75,6 +77,7 @@ namespace hw2
     MainWindow() : Button1(wtl::window_id(ControlId::Exit)),
                    Check1(wtl::window_id(ControlId::Tick1)),
                    Check2(wtl::window_id(ControlId::Tick2)),
+                   Check3(wtl::window_id(ControlId::Tick3)),
                    Edit1(wtl::window_id(ControlId::Text))
     {
       //! Initialize window properties
@@ -84,7 +87,6 @@ namespace hw2
       this->Text    = "Hello World 2";
       
       //! Listen for window events
-      this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
       this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
@@ -97,19 +99,27 @@ namespace hw2
       Check1.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck1_Checked);
       
       //! Initialize child controls
-      Check2.Position = wtl::PointL(50,100);
-      Check2.Size     = wtl::SizeL(150,25);
+      Check2.Position = Check1.Position + wtl::PointL(0,50);
+      Check2.Size     = Check1.Size;
       Check2.Text     = "Initially unticked";
       Check2.Visible  = true;
       Check2.Check    = wtl::ButtonState::Unchecked;
       Check2.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck2_Checked);
       
+      //! Initialize child controls
+      Check3.Position = Check2.Position + wtl::PointL(0,50);
+      Check3.Size     = Check1.Size;
+      Check3.Text     = "Initially indeterminate";
+      Check3.Visible  = true;
+      Check3.Check    = wtl::ButtonState::Indeterminate;
+      Check3.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck3_Checked);
+      
       //! Initialise edit control
       Edit1.Position = wtl::PointL(250,50);
       Edit1.Size     = wtl::SizeL(350,150);
       Edit1.Style   |= wtl::EditStyle::Multiline;
-      Edit1.Text     = "There once was a bear from nantucket\r\n" 
-                       "Who desired a less ordinary bucket.\r\n";
+      Edit1.Text     = "There once was a bear from nantucket \r\n" 
+                       "Who desired a less ordinary bucket.\r\n \r\n";
       Edit1.Visible  = true;
     }
   
@@ -159,20 +169,15 @@ namespace hw2
   private:
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCheck1_Checked
-    //! Called when the second checkbox is checked or unchecked
+    //! Called when the check state of the first checkbox changes
     //! 
     //! \param[in] args - Message arguments 
     //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onCheck1_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
-      // Query new state and append text box
-      switch (Check1.Check) 
-      {
-      case wtl::ButtonState::Checked:       Edit1.Text += L"'Check1' checked \r\n";       break;
-      case wtl::ButtonState::Unchecked:     Edit1.Text += L"'Check1' unchecked \r\n";     break;
-      case wtl::ButtonState::Indeterminate: Edit1.Text += L"'Check1' indeterminate \r\n"; break;
-      }
+      // Append edit control
+      Edit1.Text += L"'Check1' check changed \r\n"; 
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
@@ -180,33 +185,35 @@ namespace hw2
 
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCheck2_Checked
-    //! Called when the second checkbox is checked or unchecked
+    //! Called when the check state of the second checkbox changes
     //! 
     //! \param[in] args - Message arguments 
     //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
     wtl::LResult  onCheck2_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
-      // Query new state and append text box
-      switch (Check2.Check) 
-      {
-      case wtl::ButtonState::Checked:       Edit1.Text += L"'Check2' checked \r\n";       break;
-      case wtl::ButtonState::Unchecked:     Edit1.Text += L"'Check2' unchecked \r\n";     break;
-      case wtl::ButtonState::Indeterminate: Edit1.Text += L"'Check2' indeterminate \r\n"; break;
-      }
-
-      // debug
-      Check1.Check = wtl::ButtonState::Indeterminate;
-      
-      wtl::cdebug << "Check1.Check == " << Button_GetCheck(Check1.handle()) << std::endl
-                  << "Check2.Check == " << Button_GetCheck(Check2.handle()) << std::endl;
-
-      //Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 14);
+      // Append edit control
+      Edit1.Text += L"'Check2' check changed \r\n"; 
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
     }
+    
+    ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onCheck3_Checked
+    //! Called when the check state of the third checkbox changes
+    //! 
+    //! \param[in] args - Message arguments 
+    //! \return wtl::LResult - Routing indicating message was handled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult  onCheck3_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
+    { 
+      // Append edit control
+      Edit1.Text += L"'Check3' check changed \r\n"; 
 
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
+    }
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCreate
     //! Called during window creation to modify properties on the fly
@@ -214,7 +221,7 @@ namespace hw2
     //! \param[in,out] &args - Message arguments containing window creation properties 
     //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) 
+    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) override
     { 
       // Populate window menu from GUI commands
       this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
@@ -224,12 +231,13 @@ namespace hw2
       this->Children.create(Button1);
       this->Children.create(Check1);
       this->Children.create(Check2);
+      this->Children.create(Check3);
       this->Children.create(Edit1);
 
-      // Set edit control font
-      Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 14);
+      // Set custom edit control font
+      Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
 
-      // Show 'exit' button
+      // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
       Button1.show(wtl::ShowWindowFlags::Show);
 
       // [Handled] Accept window parameters
@@ -248,6 +256,7 @@ namespace hw2
       Button1.destroy();
       Check1.destroy();
       Check2.destroy();
+      Check3.destroy();
       Edit1.destroy();
 
       // Close program
