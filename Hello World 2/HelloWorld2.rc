@@ -55,8 +55,8 @@ ID_FILE_SAVE      ICON    "res\\Command - SaveFile.ico"
 ID_APP_EXIT       ICON    "res\\Command - AppExit.ico"
 ID_APP_ABOUT      ICON    "res\\Command - Help.ico"
 
-ID_FILE_GROUP     ICON    "res\\Command - AppExit.ico"
-ID_HELP_GROUP     ICON    "res\\Command - AppExit.ico"
+ID_FILE_GROUP     ICON    "res\\Group - File.ico"
+ID_HELP_GROUP     ICON    "res\\Group - Help.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

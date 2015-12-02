@@ -27,7 +27,7 @@ namespace hw2
   constexpr wtl::Encoding encoding = wtl::default_encoding_t<::TCHAR>::value;
 
   ///////////////////////////////////////////////////////////////////////////////
-  //! \struct HelloWorld2App - Encapsulates the 'Hello World' program
+  //! \struct HelloWorld2App - Implements the 'Hello World' program
   //! 
   //! \tparam ENC - Window charactrer encoding (Default is UTF-16)
   ///////////////////////////////////////////////////////////////////////////////
@@ -67,18 +67,26 @@ namespace hw2
       MainWindow<encoding>::registerClass(app);
 
       //! Populate the program GUI commands  ['File' command grouping]
-      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, { 
-                                                                             new wtl::NewDocumentCommand<encoding>(this->window()),
-                                                                             new wtl::OpenDocumentCommand<encoding>(this->window()),
-                                                                             new wtl::SaveDocumentCommand<encoding>(this->window()),
-                                                                             new wtl::ExitProgramCommand<encoding>(this->window()) });
+      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::File, 
+      { 
+        new wtl::NewDocumentCommand<encoding>(this->window()),
+        new wtl::OpenDocumentCommand<encoding>(this->window()),
+        new wtl::SaveDocumentCommand<encoding>(this->window()),
+        new wtl::ExitProgramCommand<encoding>(this->window()) 
+      });
+      
       //! Populate the program GUI commands  ['Help' command grouping]
-      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, { 
-                                                                             new wtl::AboutProgramCommand<encoding>(this->window()) });
+      MainWindow<encoding>::CommandGroups += new wtl::CommandGroup<encoding>(wtl::CommandGroupId::Help, 
+      { 
+        new wtl::AboutProgramCommand<encoding>(this->window()) 
+      });
     }
     
     // -------------------------------- COPY, MOVE & DESTROY --------------------------------
     
+    DISABLE_COPY(HelloWorld2App);       //!< Cannot be copied
+    ENABLE_MOVE(HelloWorld2App);        //!< Move-only type
+
     // ---------------------------------- ACCESSOR METHODS ----------------------------------
     
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +112,7 @@ namespace hw2
     }
 
     // ----------------------------------- MUTATOR METHODS ----------------------------------  
-  protected:
+  private:
     ///////////////////////////////////////////////////////////////////////////////
     // HelloWorld2App::onStart
     //! Called once upon startup to create the main window

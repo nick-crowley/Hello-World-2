@@ -226,6 +226,7 @@ namespace hw2
       this->Children.create(Check2);
       this->Children.create(Edit1);
 
+      // Set edit control font
       Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 14);
 
       // Show 'exit' button

@@ -146,6 +146,15 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|TDM-Mingw32'">
+    <Link>
+      <AdditionalDependencies>libWTL.a;Uxtheme.a;Shlwapi.a</AdditionalDependencies>
+      <ThreadSupport>false</ThreadSupport>
+    </Link>
+    <ClCompile>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="HelloWorld2.rc" />
   </ItemGroup>
