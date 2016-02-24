@@ -177,7 +177,12 @@ namespace hw2
     wtl::LResult  onCheck1_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
       // Append edit control
-      Edit1.Text += L"'Check1' check changed \r\n"; 
+      switch (Check1.Check())
+      {
+      case wtl::ButtonState::Checked:        Edit1.Text += L"'Check1' checked \r\n";       break;
+      case wtl::ButtonState::Unchecked:      Edit1.Text += L"'Check1' unchecked \r\n";     break;
+      case wtl::ButtonState::Indeterminate:  Edit1.Text += L"'Check1' intermediate \r\n";  break;
+      }
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
@@ -214,6 +219,7 @@ namespace hw2
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
     }
+
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCreate
     //! Called during window creation to modify properties on the fly
