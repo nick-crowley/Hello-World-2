@@ -9,7 +9,7 @@
 #define HW2_EXIT_BUTTON_H
 
 #include <wtl/WTL.hpp>                                          //!< Windows Template Library
-#include <wtl/windows/controls/Button.hpp>                      //!< wtl::Button
+#include <wtl/windows/controls/button/Button.hpp>               //!< wtl::Button
 #include <wtl/windows/commands/ExitProgramCommand.hpp>          //!< wtl::ExitProgramCommand
 
 /////////////////////////////////////////////////////////////////////////////////////////
