@@ -57,7 +57,8 @@ namespace hw2
       Tick1 = First+2,      //!< Checkbox
       Tick2 = First+3,      //!< Checkbox
       Tick3 = First+4,      //!< Checkbox
-      Text = First+5,       //!< Edit
+      Text1 = First+5,      //!< Edit
+      Text2 = First+6,      //!< Edit
     };
   
     // ----------------------------------- REPRESENTATION -----------------------------------
@@ -66,7 +67,8 @@ namespace hw2
     wtl::CheckBox<encoding>  Check1,          //!< Example checkbox
                              Check2,          //!< Example checkbox
                              Check3;          //!< Example checkbox
-    wtl::Edit<encoding>      Edit1;           //!< Example edit control
+    wtl::Edit<encoding>      Edit1,           //!< Example edit control
+                             Edit2;           //!< Example edit control
 
     // ------------------------------ CONSTRUCTION & DESTRUCTION ----------------------------
   
@@ -78,7 +80,8 @@ namespace hw2
                    Check1(wtl::window_id(ControlId::Tick1)),
                    Check2(wtl::window_id(ControlId::Tick2)),
                    Check3(wtl::window_id(ControlId::Tick3)),
-                   Edit1(wtl::window_id(ControlId::Text))
+                   Edit1(wtl::window_id(ControlId::Text1)),
+                   Edit2(wtl::window_id(ControlId::Text2))
     {
       //! Initialize window properties
       this->Size    = wtl::SizeL(640,480);
@@ -115,14 +118,23 @@ namespace hw2
       Check3.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck3_Checked);
       
       //! Initialise edit control
+      Edit1.ReadOnly = false;
       Edit1.Position = wtl::PointL(250,50);
       Edit1.Size     = wtl::SizeL(350,150);
       Edit1.Style   |= wtl::EditStyle::Multiline;
       Edit1.Text     = "There once was a bear from nantucket \r\n" 
                        "Who desired a less ordinary bucket.\r\n \r\n";
       Edit1.Visible  = true;
+      Edit1.Changed += new wtl::EditChangedEventHandler<encoding>(this, &MainWindow::onEdit1_Changed);
+      
+      //! Initialise edit control
+      Edit2.ReadOnly = true;
+      Edit2.Position = Edit1.Position + wtl::PointL(0,Edit1.Size().Height + 10);
+      Edit2.Size     = wtl::SizeL(350,50);
+      Edit2.Style    = Edit1.Style;
+      Edit2.Visible  = true;
     }
-  
+    
     // ----------------------------------- STATIC METHODS -----------------------------------
   public:
     ///////////////////////////////////////////////////////////////////////////////
@@ -234,14 +246,16 @@ namespace hw2
       this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
 
       // Create child controls
-      this->Children.create(Button1);
-      this->Children.create(Check1);
-      this->Children.create(Check2);
-      this->Children.create(Check3);
-      this->Children.create(Edit1);
+      this->Button1.create(this);
+      this->Check1.create(this);
+      this->Check2.create(this);
+      this->Check3.create(this);
+      this->Edit1.create(this);
+      this->Edit2.create(this);
 
       // Set custom edit control font
       Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
+      Edit2.Font = Edit1.Font;
 
       // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
       Button1.show(wtl::ShowWindowFlags::Show);
@@ -256,14 +270,10 @@ namespace hw2
     //! 
     //! \return wtl::LResult - Routing indicating message was handled
     ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onDestroy() 
+    wtl::LResult  onDestroy() override
     { 
-      // Destroy children
-      Button1.destroy();
-      Check1.destroy();
-      Check2.destroy();
-      Check3.destroy();
-      Edit1.destroy();
+      // Destroy child windows
+      this->Children.clear();
 
       // Close program
       this->post(wtl::WindowMessage::Quit);
@@ -271,7 +281,23 @@ namespace hw2
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
     }
-  
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onEdit1_Changed
+    //! Called when text of first edit changes
+    //! 
+    //! \param[in] &args - Message arguments 
+    //! \return wtl::LResult - Routing indicating message was handled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult onEdit1_Changed(wtl::EditChangedEventArgs<encoding> args)
+    {
+      // Display most recent line
+      Edit2.Text = Edit1.Lines.bottom();
+
+      // [Handled] 
+      return {wtl::MsgRoute::Handled, 0};
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onShowWindow
     //! Called when window is being shown or hidden
