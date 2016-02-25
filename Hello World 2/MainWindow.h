@@ -42,9 +42,6 @@ namespace hw2
     //! \alias type - Define own type
     using type = MainWindow<ENC>;
     
-    //! \alias class_t - Inherit window class type
-    using class_t = typename base::class_t;
-
     //! \var encoding - Inherit window character encoding
     static constexpr wtl::Encoding  encoding = base::encoding;
   
@@ -94,45 +91,45 @@ namespace hw2
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       //! Initialize child controls
-      Check1.Position = wtl::PointL(50,50);
-      Check1.Size     = wtl::SizeL(150,25);
-      Check1.Text     = "Initially ticked";
-      Check1.Visible  = true;
-      Check1.Check    = wtl::ButtonState::Checked;
-      Check1.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck1_Checked);
+      this->Check1.Position = wtl::PointL(50,50);
+      this->Check1.Size     = wtl::SizeL(150,25);
+      this->Check1.Text     = "Initially ticked";
+      this->Check1.Visible  = true;
+      this->Check1.Check    = wtl::ButtonState::Checked;
+      this->Check1.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck1_Checked);
       
       //! Initialize child controls
-      Check2.Position = Check1.Position + wtl::PointL(0,50);
-      Check2.Size     = Check1.Size;
-      Check2.Text     = "Initially unticked";
-      Check2.Visible  = true;
-      Check2.Check    = wtl::ButtonState::Unchecked;
-      Check2.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck2_Checked);
+      this->Check2.Position = this->Check1.Position + wtl::PointL(0,50);
+      this->Check2.Size     = this->Check1.Size;
+      this->Check2.Text     = "Initially unticked";
+      this->Check2.Visible  = true;
+      this->Check2.Check    = wtl::ButtonState::Unchecked;
+      this->Check2.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck2_Checked);
       
       //! Initialize child controls
-      Check3.Position = Check2.Position + wtl::PointL(0,50);
-      Check3.Size     = Check1.Size;
-      Check3.Text     = "Initially indeterminate";
-      Check3.Visible  = true;
-      Check3.Check    = wtl::ButtonState::Indeterminate;
-      Check3.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck3_Checked);
+      this->Check3.Position = this->Check2.Position + wtl::PointL(0,50);
+      this->Check3.Size     = this->Check1.Size;
+      this->Check3.Text     = "Initially indeterminate";
+      this->Check3.Visible  = true;
+      this->Check3.Check    = wtl::ButtonState::Indeterminate;
+      this->Check3.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck3_Checked);
       
       //! Initialise edit control
-      Edit1.ReadOnly = false;
-      Edit1.Position = wtl::PointL(250,50);
-      Edit1.Size     = wtl::SizeL(350,150);
-      Edit1.Style   |= wtl::EditStyle::Multiline;
-      Edit1.Text     = "There once was a bear from nantucket \r\n" 
-                       "Who desired a less ordinary bucket.\r\n \r\n";
-      Edit1.Visible  = true;
-      Edit1.Changed += new wtl::EditChangedEventHandler<encoding>(this, &MainWindow::onEdit1_Changed);
+      this->Edit1.ReadOnly = false;
+      this->Edit1.Position = wtl::PointL(250,50);
+      this->Edit1.Size     = wtl::SizeL(350,150);
+      this->Edit1.Style   |= wtl::EditStyle::Multiline;
+      this->Edit1.Text     = "There once was a bear from nantucket \r\n" 
+                             "Who desired a less ordinary bucket.\r\n \r\n";
+      this->Edit1.Visible  = true;
+      this->Edit1.Changed += new wtl::EditChangedEventHandler<encoding>(this, &MainWindow::onEdit1_Changed);
       
       //! Initialise edit control
-      Edit2.ReadOnly = true;
-      Edit2.Position = Edit1.Position + wtl::PointL(0,Edit1.Size().Height + 10);
-      Edit2.Size     = wtl::SizeL(350,50);
-      Edit2.Style    = Edit1.Style;
-      Edit2.Visible  = true;
+      this->Edit2.ReadOnly = true;
+      this->Edit2.Position = this->Edit1.Position + wtl::PointL(0, this->Edit1.Size().Height + 10);
+      this->Edit2.Size     = wtl::SizeL(350,50);
+      this->Edit2.Style    = this->Edit1.Style;
+      this->Edit2.Visible  = true;
     }
     
     // ----------------------------------- STATIC METHODS -----------------------------------
@@ -148,7 +145,7 @@ namespace hw2
     ///////////////////////////////////////////////////////////////////////////////
     static const wtl::WindowClass<encoding>& registerClass(::HINSTANCE instance) 
     {
-      static wtl::String<encoding> name("MainWindowClass");
+      static const wtl::String<encoding> name("MainWindowClass");
 
       static wtl::WindowClass<encoding> wc(instance,                                              //!< Registering module
                                            name.c_str(),                                          //!< Class name
@@ -189,11 +186,11 @@ namespace hw2
     wtl::LResult  onCheck1_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
       // Append edit control
-      switch (Check1.Check())
+      switch (this->Check1.Check())
       {
-      case wtl::ButtonState::Checked:        Edit1.Text += L"'Check1' checked \r\n";       break;
-      case wtl::ButtonState::Unchecked:      Edit1.Text += L"'Check1' unchecked \r\n";     break;
-      case wtl::ButtonState::Indeterminate:  Edit1.Text += L"'Check1' intermediate \r\n";  break;
+      case wtl::ButtonState::Checked:        this->Edit1.Text += L"'Check1' checked \r\n";       break;
+      case wtl::ButtonState::Unchecked:      this->Edit1.Text += L"'Check1' unchecked \r\n";     break;
+      case wtl::ButtonState::Indeterminate:  this->Edit1.Text += L"'Check1' intermediate \r\n";  break;
       }
 
       // [Handled] 
@@ -210,7 +207,7 @@ namespace hw2
     wtl::LResult  onCheck2_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
       // Append edit control
-      Edit1.Text += L"'Check2' check changed \r\n"; 
+      this->Edit1.Text += L"'Check2' check changed \r\n"; 
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
@@ -226,7 +223,7 @@ namespace hw2
     wtl::LResult  onCheck3_Checked(wtl::CheckBoxCheckedEventArgs<encoding> args) 
     { 
       // Append edit control
-      Edit1.Text += L"'Check3' check changed \r\n"; 
+      this->Edit1.Text += L"'Check3' check changed \r\n"; 
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
@@ -254,11 +251,11 @@ namespace hw2
       this->Edit2.create(this);
 
       // Set custom edit control font
-      Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
-      Edit2.Font = Edit1.Font;
+      this->Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
+      this->Edit2.Font = this->Edit1.Font;
 
       // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
-      Button1.show(wtl::ShowWindowFlags::Show);
+      this->Button1.show(wtl::ShowWindowFlags::Show);
 
       // [Handled] Accept window parameters
       return {wtl::MsgRoute::Handled, 0};
@@ -292,7 +289,7 @@ namespace hw2
     wtl::LResult onEdit1_Changed(wtl::EditChangedEventArgs<encoding> args)
     {
       // Display most recent line
-      Edit2.Text = Edit1.Lines.bottom();
+      this->Edit2.Text = this->Edit1.Lines.bottom();
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
