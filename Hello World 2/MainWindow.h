@@ -143,7 +143,7 @@ namespace hw2
     //! 
     //! \throw wtl::platform_error - Unable to register window class
     /////////////////////////////////////////////////////////////////////////////////////////
-    static const WindowClass<encoding>&  registerClass(::HINSTANCE instance = nullptr)
+    static const wtl::WindowClass<encoding>&  registerClass(::HINSTANCE instance = nullptr)
     {
       static const wtl::String<encoding> name("MainWindowClass");
 
