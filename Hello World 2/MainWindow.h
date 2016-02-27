@@ -136,26 +136,26 @@ namespace hw2
   public:
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::registerClass 
-    //! Registers the window-class 
+    //! Registers the window-class on the first call, retrieves the pre-registered class upon subsequent calls
     //! 
-    //! \param[in] instance - Registering module 
-    //! \return const WindowClass<encoding>& - Shared window class 
+    //! \param[in] instance - [optional] Module for which to register the window class [Necessary on first call]
+    //! \return const WindowClass<encoding>& - Registered window class 
     //! 
     //! \throw wtl::platform_error - Unable to register window class
-    ///////////////////////////////////////////////////////////////////////////////
-    static const wtl::WindowClass<encoding>& registerClass(::HINSTANCE instance) 
+    /////////////////////////////////////////////////////////////////////////////////////////
+    static const WindowClass<encoding>&  registerClass(::HINSTANCE instance = nullptr)
     {
       static const wtl::String<encoding> name("MainWindowClass");
 
-      static wtl::WindowClass<encoding> wc(instance,                                              //!< Registering module
-                                           name.c_str(),                                          //!< Class name
-                                           wtl::ClassStyle::HRedraw|wtl::ClassStyle::VRedraw,     //!< Styles (Redraw upon resize)
-                                           base::WndProc,                                         //!< Window procedure
-                                           wtl::ResourceIdW(),                                    //!< Window menu 
-                                           wtl::HCursor(wtl::SystemCursor::Arrow),                //!< Window cursor
-                                           wtl::HBrush(wtl::Colour::Green),                       //!< Window background brush 
-                                           wtl::HIcon(wtl::SystemIcon::WinLogo),                  //!< Large window icon 
-                                           wtl::HIcon(wtl::SystemIcon::WinLogo));                 //!< Small window icon 
+      static const wtl::WindowClass<encoding> wc(instance,                                              //!< Registering module
+                                                 name.c_str(),                                          //!< Class name
+                                                 wtl::ClassStyle::HRedraw|wtl::ClassStyle::VRedraw,     //!< Styles (Redraw upon resize)
+                                                 base::WndProc,                                         //!< Window procedure
+                                                 wtl::ResourceIdW(),                                    //!< Window menu 
+                                                 wtl::HCursor(wtl::SystemCursor::Arrow),                //!< Window cursor
+                                                 wtl::HBrush(wtl::Colour::Green),                       //!< Window background brush 
+                                                 wtl::HIcon(wtl::SystemIcon::WinLogo),                  //!< Large window icon 
+                                                 wtl::HIcon(wtl::SystemIcon::WinLogo));                 //!< Small window icon 
 
       // Return singleton
       return wc;
@@ -171,7 +171,7 @@ namespace hw2
     /////////////////////////////////////////////////////////////////////////////////////////
     const wtl::WindowClass<encoding>& wndclass() const override
     {
-      return registerClass(nullptr);
+      return registerClass();
     }
     
     // ----------------------------------- MUTATOR METHODS ----------------------------------
