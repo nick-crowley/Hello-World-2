@@ -50,12 +50,13 @@ namespace hw2
     {
       First = int16_t(wtl::WindowId::User),
 
-      Exit = First+1,       //!< Button
-      Tick1 = First+2,      //!< Checkbox
-      Tick2 = First+3,      //!< Checkbox
-      Tick3 = First+4,      //!< Checkbox
-      Text1 = First+5,      //!< Edit
-      Text2 = First+6,      //!< Edit
+      Exit,       //!< Button
+      Tick1,      //!< Checkbox
+      Tick2,      //!< Checkbox
+      Tick3,      //!< Checkbox
+      Choice1,    //!< ComboBox
+      Text1,      //!< Edit
+      Text2,      //!< Edit
     };
   
     // ----------------------------------- REPRESENTATION -----------------------------------
@@ -64,6 +65,7 @@ namespace hw2
     wtl::CheckBox<encoding>  Check1,          //!< Example checkbox
                              Check2,          //!< Example checkbox
                              Check3;          //!< Example checkbox
+    wtl::ComboBox<encoding>  Combo1;          //!< Example combobox
     wtl::Edit<encoding>      Edit1,           //!< Example edit control
                              Edit2;           //!< Example edit control
 
@@ -77,6 +79,7 @@ namespace hw2
                    Check1(wtl::window_id(ControlId::Tick1)),
                    Check2(wtl::window_id(ControlId::Tick2)),
                    Check3(wtl::window_id(ControlId::Tick3)),
+                   Combo1(wtl::window_id(ControlId::Choice1)),
                    Edit1(wtl::window_id(ControlId::Text1)),
                    Edit2(wtl::window_id(ControlId::Text2))
     {
@@ -87,7 +90,7 @@ namespace hw2
       this->Text    = "Hello World 2";
       
       //! Listen for window events
-      this->Destroy += new wtl::DestroyWindowEventHandler<encoding>(this, &MainWindow::onDestroy);
+      this->Create  += new wtl::CreateWindowEventHandler<encoding>(this, &MainWindow::onCreate);
       this->Show    += new wtl::ShowWindowEventHandler<encoding>(this, &MainWindow::onShowWindow);
 
       //! Initialize child controls
@@ -113,6 +116,12 @@ namespace hw2
       this->Check3.Visible  = true;
       this->Check3.Check    = wtl::ButtonState::Indeterminate;
       this->Check3.Checked += new wtl::CheckBoxCheckedEventHandler<encoding>(this, &MainWindow::onCheck3_Checked);
+      
+      //! Initialize child controls
+      this->Combo1.Position = this->Check3.Position + wtl::PointL(0,50);
+      this->Combo1.Size     = this->Check3.Size + wtl::SizeL(0,100);
+      this->Combo1.Text     = "Initial text";
+      this->Combo1.Visible  = true;
       
       //! Initialise edit control
       this->Edit1.ReadOnly = false;
@@ -175,6 +184,62 @@ namespace hw2
     }
     
     // ----------------------------------- MUTATOR METHODS ----------------------------------
+  protected:
+    ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onCreate
+    //! Called during window creation to modify properties on the fly
+    //! 
+    //! \param[in,out] &args - Message arguments containing window creation properties 
+    //! \return wtl::LResult - Routing indicating message was handled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) 
+    { 
+      // Populate window menu from GUI commands
+      this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
+      this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
+
+      // Create child controls
+      this->Button1.create(this);
+      this->Check1.create(this);
+      this->Check2.create(this);
+      this->Check3.create(this);
+      this->Combo1.create(this);
+      this->Edit1.create(this);
+      this->Edit2.create(this);
+
+      // Set custom edit control font
+      this->Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
+      this->Edit2.Font = this->Edit1.Font;
+      this->Combo1.Font = this->Edit1.Font;
+
+      // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
+      this->Button1.show(wtl::ShowWindowFlags::Show);
+
+      // Insert combobox items
+      this->Combo1.Items.append(L"Item1");
+      this->Combo1.Items.append(L"Item2");
+      this->Combo1.Items.append(L"Item3");
+      this->Combo1.MinVisible = 10;
+
+      // [Handled] Accept window parameters
+      return {wtl::MsgRoute::Handled, 0};
+    }
+  
+    ///////////////////////////////////////////////////////////////////////////////
+    // MainWindow::onDestroy
+    //! Called during window destruction to close the program
+    //! 
+    //! \return wtl::LResult - Routing indicating message was unhandled
+    ///////////////////////////////////////////////////////////////////////////////
+    wtl::LResult  onDestroy() override
+    { 
+      // Close program
+      this->post(wtl::WindowMessage::Quit);
+
+      // [Delegate] Pass to base
+      return base::onDestroy();
+    }
+
   private:
     ///////////////////////////////////////////////////////////////////////////////
     // MainWindow::onCheck1_Checked
@@ -224,56 +289,6 @@ namespace hw2
     { 
       // Append edit control
       this->Edit1.Text += L"'Check3' check changed \r\n"; 
-
-      // [Handled] 
-      return {wtl::MsgRoute::Handled, 0};
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // MainWindow::onCreate
-    //! Called during window creation to modify properties on the fly
-    //! 
-    //! \param[in,out] &args - Message arguments containing window creation properties 
-    //! \return wtl::LResult - Routing indicating message was handled
-    ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onCreate(wtl::CreateWindowEventArgs<encoding>& args) override
-    { 
-      // Populate window menu from GUI commands
-      this->Menu += base::CommandGroups[wtl::CommandGroupId::File];
-      this->Menu += base::CommandGroups[wtl::CommandGroupId::Help];
-
-      // Create child controls
-      this->Button1.create(this);
-      this->Check1.create(this);
-      this->Check2.create(this);
-      this->Check3.create(this);
-      this->Edit1.create(this);
-      this->Edit2.create(this);
-
-      // Set custom edit control font
-      this->Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
-      this->Edit2.Font = this->Edit1.Font;
-
-      // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
-      this->Button1.show(wtl::ShowWindowFlags::Show);
-
-      // [Handled] Accept window parameters
-      return {wtl::MsgRoute::Handled, 0};
-    }
-  
-    ///////////////////////////////////////////////////////////////////////////////
-    // MainWindow::onDestroy
-    //! Called during window destruction
-    //! 
-    //! \return wtl::LResult - Routing indicating message was handled
-    ///////////////////////////////////////////////////////////////////////////////
-    wtl::LResult  onDestroy() override
-    { 
-      // Destroy child windows
-      this->Children.clear();
-
-      // Close program
-      this->post(wtl::WindowMessage::Quit);
 
       // [Handled] 
       return {wtl::MsgRoute::Handled, 0};
