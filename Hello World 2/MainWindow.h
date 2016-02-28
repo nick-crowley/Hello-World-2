@@ -207,11 +207,6 @@ namespace hw2
       this->Edit1.create(this);
       this->Edit2.create(this);
 
-      // Set custom edit control font
-      this->Edit1.Font = wtl::HFont(wtl::String<encoding>("Comic Sans MS"), 16);
-      this->Edit2.Font = this->Edit1.Font;
-      this->Combo1.Font = this->Edit1.Font;
-
       // Show 'exit' button [alternative to setting 'Visible = true' in constructor]
       this->Button1.show(wtl::ShowWindowFlags::Show);
 
